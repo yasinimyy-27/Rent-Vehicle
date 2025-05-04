@@ -42,7 +42,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
             <Link to="/" className="flex items-center group">
-              <img src="/src/assets/fly1.ico" alt="RentVehicle Logo" className="h-12 w-auto mr-3 transition-transform duration-300 group-hover:scale-110" />
+              <img src="/src/assets/fly2.ico" alt="RV Logo" className="h-12 w-auto mr-3 transition-transform duration-400 group-hover:scale-110" />
             </Link>
             <div className="hidden md:block ml-10">
               <div className="flex items-baseline space-x-8">
