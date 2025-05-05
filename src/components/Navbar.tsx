@@ -4,7 +4,7 @@ import { User, Menu, LogOut, ShieldCheck, Bell } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { NotificationPanel } from './NotificationPanel';
 import { ThemeToggle } from './ThemeToggle';
-import flyIcon from '../assets/fly2.ico';
+import flyIcon from '../assets/fly2.png';
 
 
 export const Navbar = () => {
