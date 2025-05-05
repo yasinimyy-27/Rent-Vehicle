@@ -10,7 +10,9 @@ export const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center mr-3">
-                <span className="text-primary font-bold text-xl">R</span>
+                <Link to="/" className="flex items-center group">
+            <img src={flyIcon} alt="RV Logo" className="h-12 w-auto mr-3 transition-transform duration-300 group-hover:scale-110" />
+            </Link>
               </div>
               <div className="font-display text-xl tracking-wider">
                 <span className="text-accent">RENT</span>
@@ -110,7 +112,7 @@ export const Footer = () => {
                 <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                   <Phone className="h-4 w-4 text-accent" />
                 </div>
-                <span className="text-gray-400">+250 78 123 4567</span>
+                <span className="text-gray-400">+250 794 620 556</span>
               </div>
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
