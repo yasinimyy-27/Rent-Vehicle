@@ -1,6 +1,6 @@
 import  { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import flyIcon from '../assets/fly2.ico';
+import flyIcon from '../assets/fly2.png';
 
 export const Footer = () => {
   return (
