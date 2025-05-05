@@ -9,8 +9,8 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center mr-3">
-                <Link to="/" className="flex items-center group">
+               <div className="flex items-center">
+            <Link to="/" className="flex items-center group">
             <img src={flyIcon} alt="RV Logo" className="h-12 w-auto mr-3 transition-transform duration-300 group-hover:scale-110" />
             </Link>
               </div>
