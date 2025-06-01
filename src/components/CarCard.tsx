@@ -5,17 +5,17 @@ import { Car } from '../types';
 interface CarCardProps {
   car: Car;
 }
-
+ 
 export const CarCard = ({ car }: CarCardProps) => {
   return (
-    <div className="card group overflow-hidden transition-all duration-500 hover:translate-y-[-5px]">
-      <div className="relative overflow-hidden h-60">
+    <div className="card group overflow-hidden transition-all duration-500 hover:translate-y-[-5px] flex flex-col">
+      <div className="relative overflow-hidden h-60 bg-white dark:bg-black">
         <img 
           src={car.image} 
           alt={`${car.brand} ${car.model}`} 
           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
         />
-        <div className="absolute top-0 right-0 bg-accent text-primary px-3 py-1 font-bold shadow-md">
+        <div className="absolute top-0 right-0 bg-accent text-primary px-3 py-1 font-bold shadow-md text-sm">
           ${car.price}/day
         </div>
         {!car.available && (
@@ -26,44 +26,31 @@ export const CarCard = ({ car }: CarCardProps) => {
           </div>
         )}
       </div>
-      <div className="p-5 border-t-2 border-accent">
-        <h3 className="text-xl font-display tracking-wide text-primary mb-1">{car.brand} {car.model}</h3>
-        <p className="text-gray-500 mb-3 flex items-center">
+      <div className="p-5 border-t-2 border-accent flex-grow bg-white dark:bg-black">
+        <h3 className="text-xl font-display tracking-wide text-gray-900 mb-1 dark:text-white font-bold">{car.brand} {car.model}</h3>
+        <p className="text-gray-600 mb-3 flex items-center text-sm dark:text-gray-300">
           <span className="mr-2">{car.year}</span>
-          <span className="h-1 w-1 rounded-full bg-accent mr-2"></span>
-          <span>{car.transmission}</span>
+          <span className="h-1 w-1 rounded-full bg-gray-600 dark:bg-gray-300 mr-2"></span>
+          <span>{car.transmission} Transmission</span>
           <span className="h-1 w-1 rounded-full bg-accent mx-2"></span>
           <span>{car.fuelType}</span>
         </p>
-        
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="flex flex-col items-center bg-gray-100 p-2 rounded-md">
-            <Users className="h-4 w-4 text-accent mb-1" />
-            <span className="text-xs font-medium">{car.seats} seats</span>
-          </div>
-          
-          <div className="flex flex-col items-center bg-gray-100 p-2 rounded-md">
-            <Zap className="h-4 w-4 text-accent mb-1" />
-            <span className="text-xs font-medium">{car.fuelType}</span>
-          </div>
-          
-          <div className="flex flex-col items-center bg-gray-100 p-2 rounded-md">
-            <Calendar className="h-4 w-4 text-accent mb-1" />
-            <span className="text-xs font-medium">Available</span>
-          </div>
+
+        <div className="flex flex-wrap gap-y-2 items-center text-sm text-gray-700 dark:text-gray-300 dark:font-light mb-4">
+          <span className="mr-3 flex items-center"><Users className="h-4 w-4 mr-1 text-accent" /> {car.seats} Seats</span>
+          <span className="mr-3 flex items-center"><Zap className="h-4 w-4 mr-1 text-accent" /> {car.fuelType}</span>
+          {/* Removed redundant transmission info */}
         </div>
-        
-        <Link 
-          to={`/cars/${car.id}`} 
-          className="btn btn-primary w-full text-center group"
+      </div>
+      <div className="px-5 pb-5 border-t-2 border-accent bg-white dark:bg-black rounded-b-lg">
+        <Link to={`/cars/${car.id}`} 
+ className="block w-full text-center py-3 px-6 rounded-lg bg-black text-white font-semibold tracking-wide shadow-md hover:bg-gray-800 transition duration-300 ease-in-out dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-black dark:shadow-lg mt-4"
         >
-          <span className="flex items-center justify-center">
+          <span className="flex items-center justify-center gap-2">
             View Details
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </span>
         </Link>
       </div>
     </div>
   );
 };
- 

@@ -18,10 +18,10 @@ export const CarsPage = () => {
   
   // Filters
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const { theme } = useTheme();
-  
+  const [selectedBrands] = useState<string[]>([]);
+  const [selectedTypes] = useState<string[]>([]);
+  const { theme } = useTheme() || { theme: 'light' };
+
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -41,7 +41,7 @@ export const CarsPage = () => {
             description: 'Experience the thrill of driving a Lamborghini Aventador, a luxury sports car that combines stunning design with exhilarating performance.',
             available: true,
             location: 'Kigali',
-            category: 'sports'
+            category: 'Sports'
           },
           {
             id: '2',
@@ -57,7 +57,7 @@ export const CarsPage = () => {
             description: 'The Mercedes-Benz S-Class is the epitome of luxury sedans, offering exceptional comfort, cutting-edge technology, and sophisticated design.',
             available: true,
             location: 'Kigali',
-            category: 'luxury'
+            category: 'Luxury'
           },
           {
             id: '3',
@@ -73,7 +73,7 @@ export const CarsPage = () => {
             description: 'Perfect for adventurous safaris through Rwanda\'s national parks. Rugged and reliable with open-air options.',
             available: true,
             location: 'Kigali',
-            category: 'suv'
+            category: 'SUV'
           },
           {
             id: '4',
@@ -89,7 +89,7 @@ export const CarsPage = () => {
             description: 'The Bentley Continental GT is a grand tourer that represents the perfect blend of luxury, performance, and British craftsmanship.',
             available: true,
             location: 'Kigali',
-            category: 'luxury'
+            category: 'Luxury'
           },
           {
             id: '5',
@@ -105,7 +105,7 @@ export const CarsPage = () => {
             description: 'The Porsche 911 is an iconic sports car that offers exceptional handling, speed, and the unmistakable Porsche driving experience.',
             available: true,
             location: 'Kigali',
-            category: 'sports'
+            category: 'Sports'
           },
           {
             id: '6',
@@ -121,13 +121,13 @@ export const CarsPage = () => {
             description: 'The Range Rover Autobiography combines off-road capability with luxury, offering a premium SUV experience for both driver and passengers.',
             available: true,
             location: 'Kigali',
-            category: 'suv'
+            category: 'SUV'
           }
         ];
-        
+
         // Try to fetch from Firebase, fallback to mock data
         try {
-          let carsQuery = query(collection(db, 'cars'), where('available', '==', true));
+          let carsQuery: any = query(collection(db, 'cars'), where('available', '==', true));
           
           // Apply category filter if selected
           if (categoryFilter) {
@@ -141,11 +141,11 @@ export const CarsPage = () => {
               id: doc.id,
               ...doc.data()
             })) as Car[];
-            
+
             // Apply search filter client-side
             if (searchQuery) {
               const search = searchQuery.toLowerCase();
-              carsData = carsData.filter(car => 
+              carsData = carsData.filter(car =>
                 car.name.toLowerCase().includes(search) || 
                 car.brand.toLowerCase().includes(search) || 
                 car.model.toLowerCase().includes(search) ||
@@ -156,18 +156,18 @@ export const CarsPage = () => {
             setCars(carsData);
           } else {
             let filteredCars = [...mockCars];
-            
+
             // Mock category filtering
             if (categoryFilter) {
               const categoryMap: Record<string, string[]> = {
-                'luxury': ['Bentley', 'Mercedes-Benz'],
-                'sports': ['Lamborghini', 'Porsche'],
-                'suv': ['Land Rover', 'Jeep'],
+                'Luxury': ['Bentley', 'Mercedes-Benz'],
+                'Sports': ['Lamborghini', 'Porsche'],
+                'SUV': ['Land Rover', 'Jeep'],
                 'electric': ['Tesla']
               };
-              
-              filteredCars = filteredCars.filter(car => 
-                car.category === categoryFilter
+
+              filteredCars = filteredCars.filter(car =>
+                car.category?.toLowerCase() === categoryFilter.toLowerCase()
               );
             }
             
@@ -175,7 +175,7 @@ export const CarsPage = () => {
             if (searchQuery) {
               const search = searchQuery.toLowerCase();
               filteredCars = filteredCars.filter(car => 
-                car.name.toLowerCase().includes(search) || 
+                car.name.toLowerCase().includes(search) ||
                 car.brand.toLowerCase().includes(search) || 
                 car.model.toLowerCase().includes(search) ||
                 car.description.toLowerCase().includes(search)
@@ -200,7 +200,7 @@ export const CarsPage = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const search = formData.get('search') as string;
-    
+
     if (search) {
       setSearchParams(prev => {
         prev.set('search', search);
@@ -214,21 +214,21 @@ export const CarsPage = () => {
     }
   };
 
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = (category: string | undefined) => {
     setSearchParams(prev => {
       if (category) {
         prev.set('category', category);
       } else {
         prev.delete('category');
       }
-      return prev;
+ return prev;
     });
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-60">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent"></div>
+      <div className={`flex justify-center items-center h-60 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+ <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-blue-400"></div>
       </div>
     );
   }
@@ -236,27 +236,26 @@ export const CarsPage = () => {
   return (
     <div className={`py-12 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className={`text-3xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>Our Luxury Fleet</h1>
-          <p className="text-xl text-gray-600">Choose from our selection of premium vehicles</p>
+        <div className="text-center mb-8">
+          <h1 className={`text-4xl font-extrabold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Explore Our Premium Vehicles</h1>
+          <p className={`text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Choose from our selection of premium vehicles</p>
         </div>
-        
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters - Mobile Toggle */}
           <div className="lg:hidden mb-4">
             <button 
-              onClick={() => setFilterOpen(!filterOpen)}
-              className="flex items-center btn btn-primary w-full"
-            >
+              onClick={() => setFilterOpen(!filterOpen)} className={`flex items-center w-full justify-center py-3 px-4 rounded-lg focus:outline-none focus:ring-2 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-gray-200 hover:bg-gray-600 focus:ring-gray-500' : 'bg-white text-gray-800 hover:bg-gray-100 focus:ring-gray-300'} shadow-md`}
+            >              
               <Filter className="mr-2 h-5 w-5" />
               {filterOpen ? 'Hide Filters' : 'Show Filters'}
             </button>
           </div>
           
-          {/* Filters - Sidebar */}
-          <div className={`lg:w-1/4 ${filterOpen ? 'block' : 'hidden'} lg:block`}>
-            <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-md p-6`}>
-              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Search</h2>
+          {/* Filters & Search Sidebar */}
+ <div className={`lg:w-1/4 ${filterOpen ? 'block' : 'hidden'} lg:block transition-transform duration-300 ease-in-out`}>
+            <div className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-lg shadow-lg p-6`}>
+              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Find Your Car</h2>
               <form onSubmit={handleSearch} className="mb-6">
                 <div className="relative">
                   <input
@@ -264,46 +263,47 @@ export const CarsPage = () => {
                     name="search"
                     placeholder="Search cars..."
                     className="input w-full pl-10"
-                    defaultValue={searchQuery} // Consider using a controlled component for better dark mode input styling
+                    defaultValue={searchQuery}
                   />
                   <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 </div>
-                <button type="submit" className="btn btn-primary w-full mt-2">Search</button>
+                <button type="submit" className={`w-full mt-4 py-3 px-4 rounded-lg focus:outline-none focus:ring-2 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-gray-600 focus:ring-gray-500' : 'bg-gray-900 text-white hover:bg-gray-700 focus:ring-gray-800'}`}>Search</button>
               </form>
-              
-              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Categories</h2>
+
+              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Filter by Category</h2>
               <div className="space-y-2 mb-6">
-                <button 
-                  className={`btn w-full ${!categoryFilter ? 'btn-accent' : 'btn-primary'}`}
+                <button
+                  className={`w-full text-left py-2 px-4 rounded-md focus:outline-none focus:ring-2 transition duration-200 ${!categoryFilter ? 'bg-black text-white focus:ring-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-500' : (theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400')}`}
                   onClick={() => handleCategoryChange('')}
                 >
                   All Cars
                 </button>
                 <button 
-                  className={`btn w-full ${categoryFilter === 'luxury' ? 'btn-accent' : 'btn-primary'}`}
+                  className={`w-full text-left py-2 px-4 rounded-md focus:outline-none focus:ring-2 transition duration-200 ${categoryFilter === 'luxury' ? 'bg-black text-white focus:ring-gray-600' : (theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400')}`}
                   onClick={() => handleCategoryChange('luxury')}
                 >
                   Luxury
                 </button>
                 <button 
-                  className={`btn w-full ${categoryFilter === 'sports' ? 'btn-accent' : 'btn-primary'}`}
+                  className={`w-full text-left py-2 px-4 rounded-md focus:outline-none focus:ring-2 transition duration-200 ${categoryFilter === 'sports' ? 'bg-black text-white focus:ring-gray-600' : (theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400')}`}
                   onClick={() => handleCategoryChange('sports')}
                 >
                   Sports
                 </button>
                 <button 
-                  className={`btn w-full ${categoryFilter === 'suv' ? 'btn-accent' : 'btn-primary'}`}
+                  className={`w-full text-left py-2 px-4 rounded-md focus:outline-none focus:ring-2 transition duration-200 ${categoryFilter === 'suv' ? 'bg-black text-white focus:ring-gray-600' : (theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400')}`}
                   onClick={() => handleCategoryChange('suv')}
                 >
                   SUV
                 </button>
                 <button 
-                  className={`btn w-full ${categoryFilter === 'electric' ? 'btn-accent' : 'btn-primary'}`}
+                  className={`w-full text-left py-2 px-4 rounded-md focus:outline-none focus:ring-2 transition duration-200 ${categoryFilter === 'electric' ? 'bg-black text-white focus:ring-gray-600' : (theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400')}`}
                   onClick={() => handleCategoryChange('electric')}
                 >
                   Electric
                 </button>
               </div>
+              {/* Additional filters can be added here */}
             </div>
           </div>
           
@@ -312,7 +312,10 @@ export const CarsPage = () => {
             {cars.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {cars.map(car => (
-                  <CarCard key={car.id} car={car} />
+                  <CarCard 
+                    key={car.id} 
+                    car={car}
+ />
                 ))}
               </div>
             ) : (
