@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { Car } from '../types';
 import { CarCard } from '../components/CarCard';
 import { Filter, Search } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 export const CarsPage = () => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -19,6 +20,7 @@ export const CarsPage = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const { theme } = useTheme();
   
   useEffect(() => {
     const fetchCars = async () => {
@@ -232,10 +234,10 @@ export const CarsPage = () => {
   }
 
   return (
-    <div className="py-12 bg-gray-50">
+    <div className={`py-12 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-primary mb-4">Our Luxury Fleet</h1>
+          <h1 className={`text-3xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>Our Luxury Fleet</h1>
           <p className="text-xl text-gray-600">Choose from our selection of premium vehicles</p>
         </div>
         
@@ -253,8 +255,8 @@ export const CarsPage = () => {
           
           {/* Filters - Sidebar */}
           <div className={`lg:w-1/4 ${filterOpen ? 'block' : 'hidden'} lg:block`}>
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">Search</h2>
+            <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-md p-6`}>
+              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Search</h2>
               <form onSubmit={handleSearch} className="mb-6">
                 <div className="relative">
                   <input
@@ -262,14 +264,14 @@ export const CarsPage = () => {
                     name="search"
                     placeholder="Search cars..."
                     className="input w-full pl-10"
-                    defaultValue={searchQuery}
+                    defaultValue={searchQuery} // Consider using a controlled component for better dark mode input styling
                   />
                   <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 </div>
                 <button type="submit" className="btn btn-primary w-full mt-2">Search</button>
               </form>
               
-              <h2 className="text-xl font-semibold mb-4">Categories</h2>
+              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Categories</h2>
               <div className="space-y-2 mb-6">
                 <button 
                   className={`btn w-full ${!categoryFilter ? 'btn-accent' : 'btn-primary'}`}
@@ -314,8 +316,8 @@ export const CarsPage = () => {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
-                <h2 className="text-xl font-semibold mb-2">No cars found</h2>
+              <div className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-lg shadow-md p-6 text-center`}>
+                <h2 className={`text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : ''}`}>No cars found</h2>
                 <p className="text-gray-600">
                   Try adjusting your search criteria or explore other categories.
                 </p>

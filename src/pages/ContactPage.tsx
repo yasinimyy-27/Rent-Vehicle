@@ -1,6 +1,7 @@
 import  { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
-
+import { useTheme } from '../contexts/ThemeContext';
+ 
 export const ContactPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -8,6 +9,8 @@ export const ContactPage = () => {
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useTheme();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,16 +28,16 @@ export const ContactPage = () => {
   };
 
   return (
-    <div className="py-12 bg-gray-50">
+    <div className={`py-12 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-primary mb-4">Contact Us</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h1 className={`text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>Contact Us</h1>
+          <p className={`text-xl max-w-3xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
             We're here to help with any questions you may have about our services or to assist you in booking your dream car.
           </p>
         </div>
         
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className={`rounded-lg shadow-md overflow-hidden ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
           <div className="md:flex">
             <div className="md:w-1/3 bg-primary text-white p-8">
               <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
@@ -78,65 +81,65 @@ export const ContactPage = () => {
             </div>
             
             <div className="md:w-2/3 p-8">
-              <h2 className="text-2xl font-bold text-primary mb-6">Send Us a Message</h2>
+              <h2 className={`text-2xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>Send Us a Message</h2>
               
               {submitted ? (
                 <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-8 rounded flex flex-col items-center">
                   <CheckCircle className="h-16 w-16 text-green-500 mb-4" />
                   <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
                   <p className="text-center">
-                    Thank you for contacting us. We've received your message and will get back to you shortly.
+                    Thank you for contacting us. We&apos;ve received your message and will get back to you shortly.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 ">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                      <input
+                      <input 
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className="input w-full"
-                        placeholder="John Doe"
+ className={`input w-full ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-gray-700 border-gray-300 placeholder-gray-500'}`}
+ placeholder="John Doe"
                       />
                     </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                      <input
+                      <input 
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="input w-full"
-                        placeholder="john@example.com"
+ className={`input w-full ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-gray-700 border-gray-300 placeholder-gray-500'}`}
+ placeholder="john@example.com"
                       />
                     </div>
                   </div>
                   
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                    <input
+                    <input 
                       type="text"
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
                       required
-                      className="input w-full"
-                      placeholder="How can we help you?"
+ className={`input w-full ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-gray-700 border-gray-300 placeholder-gray-500'}`}
+ placeholder="How can we help you?"
                     />
                   </div>
                   
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                    <textarea
+                    <textarea 
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       required
                       rows={5}
-                      className="input w-full"
-                      placeholder="Let us know how we can assist you..."
+ className={`input w-full ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-gray-700 border-gray-300 placeholder-gray-500'}`}
+ placeholder="Let us know how we can assist you..."
                     ></textarea>
                   </div>
                   
@@ -160,7 +163,7 @@ export const ContactPage = () => {
           </div>
         </div>
         
-        <div className="mt-12 bg-white rounded-lg shadow-md p-4">
+        <div className={`mt-12 rounded-lg shadow-md p-4 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
           <iframe
             title="Elite Drive Location"
             className="w-full h-96 rounded-lg"

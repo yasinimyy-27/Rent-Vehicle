@@ -12,6 +12,7 @@ import {
   CreditCard 
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { format } from 'date-fns';
 
 export const CarDetailsPage = () => {
@@ -24,6 +25,7 @@ export const CarDetailsPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -150,7 +152,7 @@ export const CarDetailsPage = () => {
     return (
       <div className="flex justify-center items-center h-60">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent"></div>
-      </div>
+      </div>      
     );
   }
 
@@ -158,10 +160,10 @@ export const CarDetailsPage = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-4">Car not found</h2>
+          <h2 className={`text-2xl font-semibold mb-4 ${theme === 'dark' ? 'text-gray-100' : ''}`}>Car not found</h2>
           <p className="mb-6">The car you're looking for doesn't exist or has been removed.</p>
           <Link to="/cars" className="btn btn-primary">View All Cars</Link>
-        </div>
+        </div>        
       </div>
     );
   }
@@ -169,9 +171,9 @@ export const CarDetailsPage = () => {
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className={`py-12 ${theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-gray-50'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+        <div className={`rounded-lg shadow-lg overflow-hidden ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
           <div className="md:flex">
             <div className="md:w-1/2">
               <img 
@@ -181,71 +183,71 @@ export const CarDetailsPage = () => {
                 style={{ height: '500px' }}
               />
             </div>
-            <div className="md:w-1/2 p-6 md:p-8">
+            <div className="md:w-1/2 p-6 md:p-8 transition-colors duration-300">
               <div className="flex justify-between items-start">
                 <div>
-                  <h1 className="text-3xl font-bold text-primary">{car.brand} {car.model}</h1>
-                  <p className="text-gray-600 text-lg">{car.year} • {car.fuelType}</p>
-                </div>
-                <div className="bg-primary text-white text-xl font-semibold px-4 py-2 rounded">
+                  <h1 className={`text-3xl font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-accent' : 'text-primary'}`}>{car.brand} {car.model}</h1>
+                  <p className={`text-lg transition-colors duration-300 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{car.year} • {car.fuelType}</p>
+                </div>                
+                <div className={`${theme === 'dark' ? 'bg-accent text-gray-900' : 'bg-primary text-white'} text-xl font-semibold px-4 py-2 rounded`}>
                   ${car.price}/day
                 </div>
               </div>
-              
+
               <div className="my-6">
-                <h2 className="text-xl font-semibold mb-3">Description</h2>
-                <p className="text-gray-700">{car.description}</p>
+                <h2 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-gray-200' : ''}`}>Description</h2>
+                <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{car.description}</p>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 <div className="flex items-center space-x-2">
-                  <Users className="h-5 w-5 text-accent" />
+                  <Users className={`h-5 w-5 ${theme === 'dark' ? 'text-blue-400' : 'text-accent'} transition-colors duration-300`} />
                   <span>{car.seats} Seats</span>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Zap className="h-5 w-5 text-accent" />
+                  <Zap className={`h-5 w-5 ${theme === 'dark' ? 'text-yellow-400' : 'text-accent'} transition-colors duration-300`} />
                   <span>{car.fuelType}</span>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5 text-accent" />
+                  <Calendar className={`h-5 w-5 ${theme === 'dark' ? 'text-purple-400' : 'text-accent'} transition-colors duration-300`} />
                   <span>{car.year}</span>
                 </div>
                 
-                <div className="flex items-center space-x-2">
-                  <Check className="h-5 w-5 text-accent" />
+                <div className={`flex items-center space-x-2 transition-colors duration-300 ${theme === 'dark' ? 'text-gray-300' : ''}`}>
+                  <Check className={`h-5 w-5 ${theme === 'dark' ? 'text-green-400' : 'text-accent'} transition-colors duration-300`} />
                   <span>{car.transmission}</span>
                 </div>
               </div>
-              
-              <div className="border-t border-gray-200 pt-6">
-                <h2 className="text-xl font-semibold mb-4">Book This Car</h2>
+
+              <div className={`border-t pt-6 transition-colors duration-300 ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+                <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-gray-200' : ''}`}>Book This Car</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Pick-up Date</label>
-                    <input 
-                      type="date" 
+                    <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Pick-up Date</label>
+                    <input
+                      type="date"
                       className="input w-full"
-                      min={today}
+                      min={format(new Date(), 'yyyy-MM-dd')}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
-                    <input 
-                      type="date" 
+                    <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Return Date</label>
+                    <input
+                      type="date"
                       className="input w-full"
-                      min={startDate || today}
+                      min={startDate ? format(new Date(startDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')}
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
                     />
                   </div>
                 </div>
-                
+
                 {startDate && endDate && (
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
+                  <div className={`p-4 rounded-md mb-4 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-50'}`}>
                     <div className="flex justify-between mb-2">
                       <span>Daily Rate:</span>
                       <span>${car.price}</span>
@@ -259,17 +261,17 @@ export const CarDetailsPage = () => {
                       <span>${totalPrice}</span>
                     </div>
                   </div>
-                )}
-                
-                <button 
+                  )}
+
+                <button
                   onClick={handleBookNow}
                   className="btn btn-accent w-full flex items-center justify-center"
                 >
                   <CreditCard className="mr-2 h-5 w-5" />
                   Book Now
                 </button>
-                
-                <div className="mt-4 flex items-center text-sm text-gray-600">
+
+                <div className={`mt-4 flex items-center text-sm transition-colors duration-300 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                   <AlertCircle className="h-4 w-4 mr-1" />
                   <span>Free cancellation up to 24 hours before pickup</span>
                 </div>
@@ -279,6 +281,6 @@ export const CarDetailsPage = () => {
         </div>
       </div>
     </div>
-  );
+  );  
 };
  
